@@ -3,17 +3,44 @@
   <channel>
     <title>Wenyuan Du</title>
     <description>关于编程，摄影与读书</description>
-    <link>https://wenyuandu.github.io/</link>
-    <atom:link href="https://wenyuandu.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 30 Sep 2016 23:51:24 +0800</pubDate>
-    <lastBuildDate>Fri, 30 Sep 2016 23:51:24 +0800</lastBuildDate>
-    <generator>Jekyll v3.2.1</generator>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 13 Mar 2017 17:24:54 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Mar 2017 17:24:54 +0800</lastBuildDate>
+    <generator>Jekyll v3.4.2</generator>
+    
+      <item>
+        <title>取名小记</title>
+        <description>&lt;p&gt;为女儿取名翻烂了不下十本书，颇有点心得，权且记下做日后笑谈。&lt;/p&gt;
+
+&lt;p&gt;首先取名必为纪念或者期望，最忌讳按三才五行生搬硬凑两个字，除了好听外毫无内涵可言，从此宝宝沦为行立着的绣花枕头稻草包。既是纪念或者期望，低了固然俗不可耐，高了又恐隐晦艰涩，最看取名人的格韵品性。品性无法强求，格韵上倒还可以努力。&lt;/p&gt;
+
+&lt;p&gt;最巧的办法自然是化古人境界为自己境界，所谓女诗经男楚辞便是一例，只不过诗经楚辞通读全篇的人已少，脍炙人口的几句又早已被人取滥，照此取名恐怕难免落入晦涩和俗套之中，倒不妨开阔眼界，古诗、绝句、律诗、乐府、词曲、乃至现代小说歌词都可以化为己用。这里关键在一个化字，贵有自己的巧思，否则就算起一样的名也不出彩，林风眠意境高绝，史风眠就未必，史可法令左公瞿然注视，朱可法又未必。&lt;/p&gt;
+
+&lt;p&gt;韵律上不必特别忌讳双声叠韵，纳兰容若岂非双声？王阳明岂非叠韵？简直好听得要命！以双声叠韵为病本就是过时的理论，也不必特别纠结于三才五行，若取名必论三才五行，外国人还活不活了？&lt;/p&gt;
+
+&lt;p&gt;我拟的几个名字：&lt;/p&gt;
+
+&lt;p&gt;杜雨浓，小名夭夭。雨本无所谓浓淡，所谓雨浓，若不是在画中则是有香来，如果能看出后一层意思，知道是借着李太白的“犬吠深巷中，桃花带雨浓”一句指代桃花，自然明白是期望她宜其室家。如果看不出后一层意思，只知道下雨，那也合了“如在目前”的境界，每次雨天都能想到她，岂不温柔？&lt;/p&gt;
+
+&lt;p&gt;杜微萌。防微杜渐，防萌杜渐之意，微萌。&lt;/p&gt;
+
+&lt;p&gt;杜宴安。宴安鸩毒，不可怀也，必须杜绝。但既然能宴安而不宴安，也必无生计之忧。&lt;/p&gt;
+</description>
+        <pubDate>Mon, 31 Oct 2016 04:31:00 +0800</pubDate>
+        <link>http://localhost:4000/2016/10/30/naming/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/10/30/naming/</guid>
+        
+        <category>name</category>
+        
+        
+      </item>
     
       <item>
         <title>SSH加密原理与RSA非对称加密算法</title>
         <description>&lt;p&gt;首先声明一下，这里所说的SSH，并不是Java传统的三大框架，而是一种建立在应用层和传输层基础上的安全外壳协议，熟悉Linux的朋友经常使用到一 个SSH Secure Shell Cilent的工具，本文也是基于此工具加密原理的学习，在SSH的加密原理中，使用到了RSA非对称加密算法，本文也一并做了学习和了解。&lt;/p&gt;
 
-&lt;h1 id=&quot;section&quot;&gt;非对称加密算法：&lt;/h1&gt;
+&lt;h1 id=&quot;非对称加密算法&quot;&gt;非对称加密算法：&lt;/h1&gt;
 
 &lt;p&gt;在日常的工作生产中， 我们经常需要进行数据的通讯，开发人员经常需要对数据进行加解密操作，以保证数据的安全。数据的加密算法非为对称加密和非对称加密两种，常用的DES、三 重DES、AES等都属于对称加密，即通过一个密钥可以进行数据的加解密，密钥一旦泄漏，传输的数据则不安全。&lt;/p&gt;
 
@@ -21,7 +48,7 @@
 
 &lt;p&gt;相比对称加密，非对称加密的安全性得到了提升，但是也存在明显的缺点，非对称加解密的效率要远远小于对称加解密。所以非对称加密往往被用在一些安全性要求比较高的应用或领域中。&lt;/p&gt;
 
-&lt;h1 id=&quot;rsa&quot;&gt;典型的RSA非对称加密：&lt;/h1&gt;
+&lt;h1 id=&quot;典型的rsa非对称加密&quot;&gt;典型的RSA非对称加密：&lt;/h1&gt;
 
 &lt;p&gt;RSA加密算法是一种典型的非对称加密算法，它基于大数的因式分解数学难题，它也是应用最广泛的非对称加密算法，于1978年由美国麻省理工学院（MIT）的三位学着：Ron Rivest、Adi Shamir 和 Leonard Adleman 共同提出。&lt;/p&gt;
 
@@ -40,7 +67,7 @@
 
 &lt;p&gt;当然，这种方式可能存在数据传递被模拟的隐患，我们可以通过数字签名等技术进行安全性的进一步提升。由于存在多次的非对称加解密，这种方式带来的效率问题也更加严重。&lt;/p&gt;
 
-&lt;h1 id=&quot;ssh&quot;&gt;SSH加密原理：&lt;/h1&gt;
+&lt;h1 id=&quot;ssh加密原理&quot;&gt;SSH加密原理：&lt;/h1&gt;
 
 &lt;p&gt;在SSH安全协议的原理中， 是一种非对称加密与对称加密算法的结合，先看下图：
 &lt;img src=&quot;/img/ssh.png&quot; alt=&quot;ssh.png&quot; /&gt;&lt;/p&gt;
@@ -57,7 +84,7 @@
 
 &lt;p&gt;个人感觉，这样的设计在一定程度上提高了加解密的效率，不过，与客户端服务端各构建一套密钥对的加解密方式相比，在安全性上可能有所下降。在上面所述的通过口令进行加密的过程中，数据也是可以被窃听的，不过由于密钥是256个随机数字，有10的256次方中组合方式，所以破解难度也很大。相对还是比较安全的。服务端和客户端都提前知道了密钥，SSH的这种方式，服务端是通过解密获取到了密钥。&lt;/p&gt;
 
-&lt;h1 id=&quot;dh&quot;&gt;DH密钥交换算法&lt;/h1&gt;
+&lt;h1 id=&quot;dh密钥交换算法&quot;&gt;DH密钥交换算法&lt;/h1&gt;
 
 &lt;p&gt;SSH的原理，是基于RSA非对称加密，RSA是基于大数的因式分解数学难题，下面要提到的DH密钥交换算法则是基于有限域上的离散对数难题。&lt;/p&gt;
 
@@ -76,8 +103,8 @@
 &lt;p&gt;总结：成文的过程中，阅读了一些关于加密解密的算法，做出了如上的理解，毕竟术业有专攻，也可能存在理解偏颇，甚至错误的地方，希望大家批评指正。&lt;/p&gt;
 </description>
         <pubDate>Thu, 29 Sep 2016 22:00:00 +0800</pubDate>
-        <link>https://wenyuandu.github.io/2016/09/29/ssh-rsa-encryption/</link>
-        <guid isPermaLink="true">https://wenyuandu.github.io/2016/09/29/ssh-rsa-encryption/</guid>
+        <link>http://localhost:4000/2016/09/29/ssh-rsa-encryption/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/09/29/ssh-rsa-encryption/</guid>
         
         <category>programming</category>
         
@@ -86,14 +113,14 @@
     
       <item>
         <title>How to Read a Book</title>
-        <description>&lt;h2 id=&quot;section&quot;&gt;阅读目的的三个层次：&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;阅读目的的三个层次&quot;&gt;阅读目的的三个层次：&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;娱乐消遣&lt;/li&gt;
   &lt;li&gt;获得资讯&lt;/li&gt;
   &lt;li&gt;增进理解&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;阅读时应心存的四个问题：&lt;/h2&gt;
+&lt;h2 id=&quot;阅读时应心存的四个问题&quot;&gt;阅读时应心存的四个问题：&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;整体来说，这本书到底在谈什么？&lt;/li&gt;
   &lt;li&gt;书的细节部分，即作者的想法或论点是什么？&lt;/li&gt;
@@ -101,7 +128,7 @@
   &lt;li&gt;这本书和我有什么关系？&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-2&quot;&gt;阅读的四个渐进层次：&lt;/h2&gt;
+&lt;h2 id=&quot;阅读的四个渐进层次&quot;&gt;阅读的四个渐进层次：&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;基础阅读（elementary reading）：熟练识字阶段&lt;/li&gt;
   &lt;li&gt;检视阅读（inspectional reading）：系统化的略读（skimming systematically），强调在规定时间内明确一本书所属的类别与基本架构&lt;/li&gt;
@@ -109,7 +136,7 @@
   &lt;li&gt;主题阅读（synoptical reading）：就某一主题阅读与之相关的许多本书&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-3&quot;&gt;检视阅读&lt;/h2&gt;
+&lt;h2 id=&quot;检视阅读&quot;&gt;检视阅读&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;先看书名页，然后如果有序就先看序。&lt;/li&gt;
   &lt;li&gt;研究目录页，对这本书的基本架构做概括性的理解。&lt;/li&gt;
@@ -119,8 +146,8 @@
   &lt;li&gt;最后一步，把书打开来，东翻翻西翻翻，念个一两段，有时候连续读几页，但不要太多。 你可以把自己当成一个侦探，在找寻一本书或思想主题的线索。随时保持敏捷，就很容易让一切状况清楚。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-4&quot;&gt;分析阅读&lt;/h2&gt;
-&lt;h3 id=&quot;section-5&quot;&gt;第一个阶段：找出一本书在谈些什么&lt;/h3&gt;
+&lt;h2 id=&quot;分析阅读&quot;&gt;分析阅读&lt;/h2&gt;
+&lt;h3 id=&quot;第一个阶段找出一本书在谈些什么&quot;&gt;第一个阶段：找出一本书在谈些什么&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;你一定要知道自己在读的是哪一类书，而且要越早知道越好。最好早在你开始阅读之前就先知道。&lt;/li&gt;
   &lt;li&gt;使用一个单一的句子，或最多几句话（一小段文字）来叙述整本书的内容。&lt;/li&gt;
@@ -128,7 +155,7 @@
   &lt;li&gt;找出作者在问的问题，或作者想要解决的问题。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&quot;section-6&quot;&gt;第二个阶段：诠释一本书的内容&lt;/h3&gt;
+&lt;h3 id=&quot;第二个阶段诠释一本书的内容&quot;&gt;第二个阶段：诠释一本书的内容&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;找出重要单字，透过它们与作者达成共识。&lt;/li&gt;
   &lt;li&gt;将一本书中最重要的句子圈出来，找出其中的主旨 。&lt;/li&gt;
@@ -136,14 +163,14 @@
   &lt;li&gt;找出作者的解答。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&quot;section-7&quot;&gt;第三个阶段：像是沟通知识一样地评论一本书&lt;/h3&gt;
+&lt;h3 id=&quot;第三个阶段像是沟通知识一样地评论一本书&quot;&gt;第三个阶段：像是沟通知识一样地评论一本书&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;在你说出“我同意”，“我不同意”，或“我暂缓评论”之前，你一定要能肯定地说：“我了解了。”&lt;/li&gt;
   &lt;li&gt;当你不同意作者的观点时，要理性地表达自己的意见，不要无理地辩驳或争论。&lt;/li&gt;
   &lt;li&gt;尊重知识与个人观点的不同，在作任何评断之前，都要找出理论基础。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-8&quot;&gt;主题阅读&lt;/h2&gt;
+&lt;h2 id=&quot;主题阅读&quot;&gt;主题阅读&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;利用主题工具书，收集相关书目。&lt;/li&gt;
   &lt;li&gt;检视阅读这些书目，确定哪些书与你的主题相关，在这个过程中你会更清楚你的主题。&lt;/li&gt;
@@ -154,7 +181,7 @@
   &lt;li&gt;分析讨论，把问题和议题依序排列，以求突出主题。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-9&quot;&gt;批评一部作品的四个角度：&lt;/h2&gt;
+&lt;h2 id=&quot;批评一部作品的四个角度&quot;&gt;批评一部作品的四个角度：&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;知识不足（uninformed）&lt;/li&gt;
   &lt;li&gt;知识有错误（misinformed）&lt;/li&gt;
@@ -162,7 +189,7 @@
   &lt;li&gt;分析不够完整&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;section-10&quot;&gt;做笔记的六个建议：&lt;/h2&gt;
+&lt;h2 id=&quot;做笔记的六个建议&quot;&gt;做笔记的六个建议：&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;画底线—在主要的重点，或重要又有力量的句子下画线。&lt;/li&gt;
   &lt;li&gt;在画底线处的栏外再加画一道线—把你已经画线的部分再强调一遍，或是某一段很重要，但要画底线太长了，便在这一整段外加上一个记号。&lt;/li&gt;
@@ -174,8 +201,8 @@
 
 </description>
         <pubDate>Mon, 25 Jan 2016 22:00:00 +0800</pubDate>
-        <link>https://wenyuandu.github.io/2016/01/25/how-to-read-a-book/</link>
-        <guid isPermaLink="true">https://wenyuandu.github.io/2016/01/25/how-to-read-a-book/</guid>
+        <link>http://localhost:4000/2016/01/25/how-to-read-a-book/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/01/25/how-to-read-a-book/</guid>
         
         <category>book</category>
         

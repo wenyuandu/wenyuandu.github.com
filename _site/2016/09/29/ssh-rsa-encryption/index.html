@@ -12,7 +12,7 @@
 
     <title>SSH加密原理与RSA非对称加密算法 - Wenyuan Du's Blog</title>
 
-    <link rel="canonical" href="https://wenyuandu.github.io/2016/09/29/ssh-rsa-encryption/">
+    <link rel="canonical" href="http://localhost:4000/2016/09/29/ssh-rsa-encryption/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -191,7 +191,7 @@
 
 				<p>首先声明一下，这里所说的SSH，并不是Java传统的三大框架，而是一种建立在应用层和传输层基础上的安全外壳协议，熟悉Linux的朋友经常使用到一 个SSH Secure Shell Cilent的工具，本文也是基于此工具加密原理的学习，在SSH的加密原理中，使用到了RSA非对称加密算法，本文也一并做了学习和了解。</p>
 
-<h1 id="section">非对称加密算法：</h1>
+<h1 id="非对称加密算法">非对称加密算法：</h1>
 
 <p>在日常的工作生产中， 我们经常需要进行数据的通讯，开发人员经常需要对数据进行加解密操作，以保证数据的安全。数据的加密算法非为对称加密和非对称加密两种，常用的DES、三 重DES、AES等都属于对称加密，即通过一个密钥可以进行数据的加解密，密钥一旦泄漏，传输的数据则不安全。</p>
 
@@ -199,7 +199,7 @@
 
 <p>相比对称加密，非对称加密的安全性得到了提升，但是也存在明显的缺点，非对称加解密的效率要远远小于对称加解密。所以非对称加密往往被用在一些安全性要求比较高的应用或领域中。</p>
 
-<h1 id="rsa">典型的RSA非对称加密：</h1>
+<h1 id="典型的rsa非对称加密">典型的RSA非对称加密：</h1>
 
 <p>RSA加密算法是一种典型的非对称加密算法，它基于大数的因式分解数学难题，它也是应用最广泛的非对称加密算法，于1978年由美国麻省理工学院（MIT）的三位学着：Ron Rivest、Adi Shamir 和 Leonard Adleman 共同提出。</p>
 
@@ -218,7 +218,7 @@
 
 <p>当然，这种方式可能存在数据传递被模拟的隐患，我们可以通过数字签名等技术进行安全性的进一步提升。由于存在多次的非对称加解密，这种方式带来的效率问题也更加严重。</p>
 
-<h1 id="ssh">SSH加密原理：</h1>
+<h1 id="ssh加密原理">SSH加密原理：</h1>
 
 <p>在SSH安全协议的原理中， 是一种非对称加密与对称加密算法的结合，先看下图：
 <img src="/img/ssh.png" alt="ssh.png" /></p>
@@ -235,7 +235,7 @@
 
 <p>个人感觉，这样的设计在一定程度上提高了加解密的效率，不过，与客户端服务端各构建一套密钥对的加解密方式相比，在安全性上可能有所下降。在上面所述的通过口令进行加密的过程中，数据也是可以被窃听的，不过由于密钥是256个随机数字，有10的256次方中组合方式，所以破解难度也很大。相对还是比较安全的。服务端和客户端都提前知道了密钥，SSH的这种方式，服务端是通过解密获取到了密钥。</p>
 
-<h1 id="dh">DH密钥交换算法</h1>
+<h1 id="dh密钥交换算法">DH密钥交换算法</h1>
 
 <p>SSH的原理，是基于RSA非对称加密，RSA是基于大数的因式分解数学难题，下面要提到的DH密钥交换算法则是基于有限域上的离散对数难题。</p>
 
@@ -269,6 +269,13 @@
                     </li>
                     
                     
+                    <li class="next">
+                        <a href="/2016/10/30/naming/" data-toggle="tooltip" data-placement="top" title="取名小记">
+                        Next<br>
+                        <span>取名小记</span>
+                        </a>
+                    </li>
+                    
                 </ul>
 
 
@@ -278,7 +285,7 @@
                     <div class="ds-thread"
                         data-thread-key="/2016/09/29/ssh-rsa-encryption"
                         data-title="SSH加密原理与RSA非对称加密算法"
-                        data-url="https://wenyuandu.github.io/2016/09/29/ssh-rsa-encryption/" >
+                        data-url="http://localhost:4000/2016/09/29/ssh-rsa-encryption/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -317,6 +324,8 @@
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
+        				
+                            
         				
                             
         				
@@ -468,7 +477,7 @@
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Wenyuan Du 2016
+                    Copyright &copy; Wenyuan Du 2017
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe
