@@ -12,12 +12,12 @@ tags:
 
 一个解决思路是首先在资源文件中设置好不同环境中用到的参数，然后在构建阶段确定要将哪一个资源文件编译到应用包中。根据这个思路我们可以通过Maven Profile来完成多环境配置，下文举一个配置jdbc的简单例子方便大家理解。
 </br> 
-###### 1. 资源文件
+#### 1. 资源文件
 在资源文件中设置好jdbc连接的地址、密码等基本参数
 ![](http://upload-images.jianshu.io/upload_images/3478473-56ea3acba2efab7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 </br> 
-###### 2. 在pom.xml中配置profile
+#### 2. 在pom.xml中配置profile
 ```maven
 <profiles>
     <!--开发环境-->
@@ -41,7 +41,7 @@ tags:
 </profiles>
 ```
 </br> 
-###### 3. 配置资源文件
+#### 3. 配置资源文件
 ```maven
 <build>
     <resources>
@@ -58,7 +58,7 @@ tags:
 </build>
 ```
 </br> 
-###### 4.Maven构建
+#### 4.Maven构建
 ```
 mvn clean package -P development
 mvn clean package -P production
@@ -66,5 +66,5 @@ mvn clean package -P production
 分别构建出开发环境或生产环境的war包，若不设置-P参数，按照我们上文中pom.xml的配置，会默认选择开发环境的profile。
 
 </br> 
-#### 缺点
+## 缺点
 通过Maven Profile实现多环境配置的一个缺点是每次切换环境都必须重新构建，而重新构建可能会引入bug，我准备在下一篇文章中介绍另一种更加灵活的多环境配置解决方案，即Spring Profile。
