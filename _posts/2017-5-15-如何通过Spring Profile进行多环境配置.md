@@ -14,13 +14,13 @@ tags:
 
 其实Spring Profile与Maven Profile在解决多环境配置的思路上并没有太大区别，同样是在资源文件中事先设置好不同环境中用到的参数，然后根据环境选择使用哪一个资源文件。唯一的区别是Spring不会在构建的时候选择资源文件，而是在运行的时候选择，所以打出的war包能够直接用于不同的运行环境，而不需要重新构建。下面我依旧举一个简单的例子方便大家理解。
 
-######1. 资源文件
+###### 1. 资源文件
 在资源文件中设置好不同环境所需的参数
 ![资源文件列表](http://upload-images.jianshu.io/upload_images/3478473-bdd88be9e87042f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![开发环境参数](http://upload-images.jianshu.io/upload_images/3478473-f2adfc8d51e5a4fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![生产环境参数](http://upload-images.jianshu.io/upload_images/3478473-8930d0fc77813954.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-######2. 配置Spring Profile
+###### 2. 配置Spring Profile
 ```xml
     <!--开发环境-->
     <beans profile="development">
@@ -40,7 +40,7 @@ tags:
 Spring会根据Profile的激活状态创建相应的Bean，而Profile的激活状态取决于两个属性，即spring.profiles.active和spring.profiles.default。
 如果设置了spring.profiles.active属性，Spring就会根据它判断哪些Profile处于激活状态，如果没有设置spring.profiles.active，Spring则会退而求其次根据spring.profiles.default判断Profile的激活状态。
 
-######3. Bean赋值
+###### 3. Bean赋值
 ```java
 @Component
 public class DemoBean {
@@ -59,7 +59,7 @@ public class DemoBean {
 
 ```
 
-######4. 激活Profile
+###### 4. 激活Profile
 ```java
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:applicationContext" })
@@ -76,7 +76,7 @@ public class DemoBeanService {
 }
 ```
 
-######5.结果
+###### 5.结果
 
 ![](http://upload-images.jianshu.io/upload_images/3478473-8ad1ae09a54cb465.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
