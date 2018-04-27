@@ -24,12 +24,15 @@ sudo apt-get install dnsmasq
 Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简单做了以下修改。
 ```conf
     #首先配置resolv-file，这个参数表示dnsmasq会从这个指定的文件中寻找上游DNS服务器
+
     resolv-file=/etc/resolv.dnsmasq
 
     #单设置127.0.0.1为只能本机使用，单设置本机IP为只能内部全网使用而本机不能用，这里需要同时设置两者
+
     listen-address=127.0.0.1,192.168.1.98
 
     #dnsmasq缓存设置
+    
     cache-size=1024
 ```
 
