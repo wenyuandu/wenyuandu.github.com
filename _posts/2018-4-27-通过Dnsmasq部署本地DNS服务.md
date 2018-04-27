@@ -18,7 +18,9 @@ tags:
 
 ###### 1. 安装Dnsmasq
 我将本地DNS服务安装在了192.168.1.98上，因为该测试服务器的系统是ubuntu，使用自带的包管理器下载并安装Dnsmasq最简洁。
-sudo apt-get install dnsmasq
+```shell
+    sudo apt-get install dnsmasq
+```
 
 ###### 2. 配置Dnsmasq
 Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简单做了以下修改。
@@ -45,7 +47,7 @@ Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简�
 按以上配置配置好Dnsmasq并启动后，会发现Dnsmasq无法正常解析域名，使用ps -ef | grep dnsmasq查看后发现如下信息
 ```text
     dnsmasq  10384     1  0 15:16 ?        00:00:00 /usr/sbin/dnsmasq -x /var/run/dnsmasq/dnsmasq.pid -u dnsmasq -r /var/run/dnsmasq/resolv.conf -7 /etc/
-    
+
     dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service --trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 ```
 其中dnsmasq -r /var/run/dnsmasq/resolv.conf说明Dnsmasq是从/var/run/dnsmasq/resolv.conf文件中获取上游DNS服务器，而非我们指定的resolv-file=/etc/resolv.dnsmasq.conf。
@@ -69,7 +71,10 @@ Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简�
 
 ###### 4. 启动Dnsmasq
 大功告成，启动Dnsmasq。
-sudo service dnsmasq start
+```shell
+    sudo service dnsmasq start
+```
+
 
 
 ###### 5. 设置路由器，将DNS服务指向本地DNS服务器
