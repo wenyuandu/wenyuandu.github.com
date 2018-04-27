@@ -45,6 +45,7 @@ Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简�
 按以上配置配置好Dnsmasq并启动后，会发现Dnsmasq无法正常解析域名，使用ps -ef | grep dnsmasq查看后发现如下信息
 ```text
     dnsmasq  10384     1  0 15:16 ?        00:00:00 /usr/sbin/dnsmasq -x /var/run/dnsmasq/dnsmasq.pid -u dnsmasq -r /var/run/dnsmasq/resolv.conf -7 /etc/
+    
     dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service --trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
 ```
 其中dnsmasq -r /var/run/dnsmasq/resolv.conf说明Dnsmasq是从/var/run/dnsmasq/resolv.conf文件中获取上游DNS服务器，而非我们指定的resolv-file=/etc/resolv.dnsmasq.conf。
@@ -61,7 +62,7 @@ Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简�
     # /etc/dnsmasq.conf is not enough to override resolvconf if it is
 
     # installed: the line below must be uncommented.
-    
+
     # IGNORE_RESOLVCONF=yes
 ```
 这里必须取消IGNORE_RESOLVCONF=yes前的注释，才能让resolv-file=/etc/resolv.dnsmasq.conf生效。
