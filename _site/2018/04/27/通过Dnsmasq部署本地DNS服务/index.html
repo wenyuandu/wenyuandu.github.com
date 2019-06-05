@@ -10,9 +10,9 @@
     <meta name="keywords"  content="编程，摄影，读书">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>How to Read a Book - Wenyuan Du's Blog</title>
+    <title>通过Dnsmasq部署本地DNS服务 - Wenyuan Du's Blog</title>
 
-    <link rel="canonical" href="http://localhost:4000/2016/01/25/how-to-read-a-book/">
+    <link rel="canonical" href="http://localhost:4000/2018/04/27/%E9%80%9A%E8%BF%87Dnsmasq%E9%83%A8%E7%BD%B2%E6%9C%AC%E5%9C%B0DNS%E6%9C%8D%E5%8A%A1/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -163,15 +163,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#book" title="book">book</a>
+                        <a class="tag" href="/tags/#DNS" title="DNS">DNS</a>
                         
                     </div>
-                    <h1>How to Read a Book</h1>
+                    <h1>通过Dnsmasq部署本地DNS服务</h1>
                     
                     
                     <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by Wenyuan Du on January 25, 2016</span>
+                    <span class="meta">Posted by Wenyuan Du on April 27, 2018</span>
                 </div>
             </div>
         </div>
@@ -189,92 +189,76 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<h2 id="阅读目的的三个层次">阅读目的的三个层次：</h2>
-<ol>
-  <li>娱乐消遣</li>
-  <li>获得资讯</li>
-  <li>增进理解</li>
-</ol>
+				<p>在开发、测试和正式环境中，我们总希望通过同一个域名找到对应环境中的服务实例，简化配置流程，例如在测试环境中，让api.changjinglu.net关联到IP为192.168.1.34的测试服务器，而在正式环境中，让api.changjinglu.net关联到IP为47.96.51.143的正式服务器。</p>
 
-<h2 id="阅读时应心存的四个问题">阅读时应心存的四个问题：</h2>
-<ol>
-  <li>整体来说，这本书到底在谈什么？</li>
-  <li>书的细节部分，即作者的想法或论点是什么？</li>
-  <li>这本书说的有道理吗，是全部有还只是部分有道理？</li>
-  <li>这本书和我有什么关系？</li>
-</ol>
+<p>我们现在的解决方案是在本机的/etc/hosts文件中记录相应的域名IP映射关系，本机在尝试解析一个域名时，会先去/etc/hosts中查找该域名对应的IP，并访问相应IP的服务器。只有当/etc/hosts中没有该域名的记录时，本机才会去DNS服务器进行域名解析。</p>
 
-<h2 id="阅读的四个渐进层次">阅读的四个渐进层次：</h2>
-<ol>
-  <li>基础阅读（elementary reading）：熟练识字阶段</li>
-  <li>检视阅读（inspectional reading）：系统化的略读（skimming systematically），强调在规定时间内明确一本书所属的类别与基本架构</li>
-  <li>分析阅读（analytical reading）：全盘、完整地阅读</li>
-  <li>主题阅读（synoptical reading）：就某一主题阅读与之相关的许多本书</li>
-</ol>
+<p>本机解析域名的优先级为DNS缓存&gt;/etc/hosts&gt;DNS服务。</p>
 
-<h2 id="检视阅读">检视阅读</h2>
-<ol>
-  <li>先看书名页，然后如果有序就先看序。</li>
-  <li>研究目录页，对这本书的基本架构做概括性的理解。</li>
-  <li>如果书中附有索引，也要检阅一下。</li>
-  <li>如果那是本包着书衣的新书，不妨读一下出版者的介绍。</li>
-  <li>从你对目录很概略甚至有点模糊的印象当中，开始挑几个看来跟主题息息相关的篇章来看。</li>
-  <li>最后一步，把书打开来，东翻翻西翻翻，念个一两段，有时候连续读几页，但不要太多。 你可以把自己当成一个侦探，在找寻一本书或思想主题的线索。随时保持敏捷，就很容易让一切状况清楚。</li>
-</ol>
+<p>这个解决方案稍显繁琐，因为每台机器都必须在自己的/etc/hosts文件中配置正确的域名IP映射关系，一旦映射关系发生改变，所有机器又必须全部做相应的修改。一个更简洁的解决方案是构建一个本地DNS服务器，让路由器指向该本地DNS服务器，让它统一管理所有通用的域名IP映射，如果个别开发者有自己的特别需要，可以利用域名解析的优先级顺序，通过修改自己本机的/etc/hosts覆盖本地DNS服务的映射关系。使用这个新方案，当局域网中新增某个服务或某个原有服务改变IP地址时，只需要在本地DNS服务器上新增或修改映射配置，局域网中的所有机器无需做修改，就能享受到正确的映射关系了。</p>
 
-<h2 id="分析阅读">分析阅读</h2>
-<h3 id="第一个阶段找出一本书在谈些什么">第一个阶段：找出一本书在谈些什么</h3>
-<ol>
-  <li>你一定要知道自己在读的是哪一类书，而且要越早知道越好。最好早在你开始阅读之前就先知道。</li>
-  <li>使用一个单一的句子，或最多几句话（一小段文字）来叙述整本书的内容。</li>
-  <li>将书中重要篇章列举出来，说明它们如何按照顺序组成一个整体的架构。</li>
-  <li>找出作者在问的问题，或作者想要解决的问题。</li>
-</ol>
+<p>下面讲一讲如何通过Dnsmasq实现这个新方案。</p>
 
-<h3 id="第二个阶段诠释一本书的内容">第二个阶段：诠释一本书的内容</h3>
-<ol>
-  <li>找出重要单字，透过它们与作者达成共识。</li>
-  <li>将一本书中最重要的句子圈出来，找出其中的主旨 。</li>
-  <li>从相关文句的关联中，设法架构出一本书的基本论述。</li>
-  <li>找出作者的解答。</li>
-</ol>
+<h6 id="1-安装dnsmasq">1. 安装Dnsmasq</h6>
+<p>我将本地DNS服务安装在了192.168.1.98上，因为该测试服务器的系统是ubuntu，使用自带的包管理器下载并安装Dnsmasq最简洁。</p>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>    sudo apt-get install dnsmasq
+</code></pre>
+</div>
 
-<h3 id="第三个阶段像是沟通知识一样地评论一本书">第三个阶段：像是沟通知识一样地评论一本书</h3>
-<ol>
-  <li>在你说出“我同意”，“我不同意”，或“我暂缓评论”之前，你一定要能肯定地说：“我了解了。”</li>
-  <li>当你不同意作者的观点时，要理性地表达自己的意见，不要无理地辩驳或争论。</li>
-  <li>尊重知识与个人观点的不同，在作任何评断之前，都要找出理论基础。</li>
-</ol>
+<h6 id="2-配置dnsmasq">2. 配置Dnsmasq</h6>
+<p>Dnsmasq所有的配置都在/etc/dnsmasq.conf文件中完成，按照需要简单做了以下修改。</p>
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>    #首先配置resolv-file，这个参数表示dnsmasq会从这个指定的文件中寻找上游DNS服务器
 
-<h2 id="主题阅读">主题阅读</h2>
-<ol>
-  <li>利用主题工具书，收集相关书目。</li>
-  <li>检视阅读这些书目，确定哪些书与你的主题相关，在这个过程中你会更清楚你的主题。</li>
-  <li>第二次通过检视阅读找出与主题相关的书，以及书中的章。</li>
-  <li>用中立的语言，带领各个作者与你达成共识。</li>
-  <li>理清问题，并让各个作者为你回答。</li>
-  <li>界定主题，确保各个作者相关的观点都参与进来。</li>
-  <li>分析讨论，把问题和议题依序排列，以求突出主题。</li>
-</ol>
+    resolv-file=/etc/resolv.dnsmasq.conf
 
-<h2 id="批评一部作品的四个角度">批评一部作品的四个角度：</h2>
-<ol>
-  <li>知识不足（uninformed）</li>
-  <li>知识有错误（misinformed）</li>
-  <li>不合逻辑</li>
-  <li>分析不够完整</li>
-</ol>
+    #单设置127.0.0.1为只能本机使用，单设置本机IP为只能内部全网使用而本机不能用，这里需要同时设置两者
 
-<h2 id="做笔记的六个建议">做笔记的六个建议：</h2>
-<ol>
-  <li>画底线—在主要的重点，或重要又有力量的句子下画线。</li>
-  <li>在画底线处的栏外再加画一道线—把你已经画线的部分再强调一遍，或是某一段很重要，但要画底线太长了，便在这一整段外加上一个记号。</li>
-  <li>在空白处做星号或其他符号—要慎用，只用来强调书中十来个最重要的声明或段落即可。你可能想要将做过这样记号的地方每页折一个角，或是夹一张书签，这样你随时从书架上拿起这本书，打开你做记号的地方，就能唤醒你的记忆。</li>
-  <li>在空白处编号—作者的某个论点发展出一连串的重要陈述时，可以做顺序编号。</li>
-  <li>在空白处记下其他的页码—强调作者在书中其他部分也有过同样的论点，或相关的要点，或是与此处观点不同的地方。这样做能让散布全书的想法统一集中起来。许多读者会用Cf这样的记号，表示比较或参照的意思。</li>
-  <li>将关键字或句子圈出来—这跟画底线是同样的功能。</li>
-</ol>
+    listen-address=127.0.0.1,192.168.1.98
 
+    #dnsmasq缓存设置
+    
+    cache-size=1024
+</code></pre>
+</div>
+
+<p>然后根据自己设置的resolv-file=/etc/resolv.dnsmasq.conf，配置/etc/resolv.dnsmasq.conf文件，指定上游DNS服务器</p>
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>    nameserver 114.114.114.114
+</code></pre>
+</div>
+
+<h6 id="3-坑">3. 坑</h6>
+<p>按以上配置配置好Dnsmasq并启动后，会发现Dnsmasq无法正常解析域名，使用ps -ef | grep dnsmasq查看后发现如下信息</p>
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>    dnsmasq  10384     1  0 15:16 ?        00:00:00 /usr/sbin/dnsmasq -x /var/run/dnsmasq/dnsmasq.pid -u dnsmasq -r /var/run/dnsmasq/resolv.conf -7 /etc/
+
+    dnsmasq.d,.dpkg-dist,.dpkg-old,.dpkg-new --local-service --trust-anchor=.,19036,8,2,49AAC11D7B6F6446702E54A1607371607A1A41855200FD2CE1CDDE32F24E8FB5
+</code></pre>
+</div>
+<p>其中dnsmasq -r /var/run/dnsmasq/resolv.conf说明Dnsmasq是从/var/run/dnsmasq/resolv.conf文件中获取上游DNS服务器，而非我们指定的resolv-file=/etc/resolv.dnsmasq.conf。
+查阅了无数文档以后，发现在/etc/default/dnsmasq中有一个IGNORE_RESOLVCONF属性，说明如下</p>
+<div class="language-text highlighter-rouge"><pre class="highlight"><code>    # If the resolvconf package is installed, dnsmasq will use its output
+
+    # rather than the contents of /etc/resolv.conf to find upstream
+
+    # nameservers. Uncommenting this line inhibits this behaviour.
+
+    # Note that including a "resolv-file=&lt;filename&gt;" line in
+
+    # /etc/dnsmasq.conf is not enough to override resolvconf if it is
+
+    # installed: the line below must be uncommented.
+
+    # IGNORE_RESOLVCONF=yes
+</code></pre>
+</div>
+<p>这里必须取消IGNORE_RESOLVCONF=yes前的注释，才能让resolv-file=/etc/resolv.dnsmasq.conf生效。</p>
+
+<h6 id="4-启动dnsmasq">4. 启动Dnsmasq</h6>
+<p>大功告成，启动Dnsmasq。</p>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>    sudo service dnsmasq start
+</code></pre>
+</div>
+
+<h6 id="5-设置路由器将dns服务指向本地dns服务器">5. 设置路由器，将DNS服务指向本地DNS服务器</h6>
 
 
                 <hr>
@@ -284,11 +268,18 @@
 
                 <ul class="pager">
                     
+                    <li class="previous">
+                        <a href="/2017/05/15/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87Spring-Profile%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="如何通过Spring Profile进行多环境配置">
+                        Previous<br>
+                        <span>如何通过Spring Profile进行多环境配置</span>
+                        </a>
+                    </li>
+                    
                     
                     <li class="next">
-                        <a href="/2016/09/29/ssh-rsa-encryption/" data-toggle="tooltip" data-placement="top" title="SSH加密原理与RSA非对称加密算法">
+                        <a href="/%E6%9E%B6%E6%9E%84/2019/05/29/gRPC%E5%AE%9E%E7%8E%B0%E8%B7%A8%E8%AF%AD%E8%A8%80%E7%9A%84%E5%BE%AE%E6%9C%8D%E5%8A%A1%E9%97%B4%E9%80%9A%E4%BF%A1-%E7%B2%BE%E9%80%9A%E5%A4%96%E8%AF%AD%E7%9A%84%E7%94%B5%E6%8A%A5%E5%91%98%E4%B8%8E%E7%85%B2%E7%94%B5%E6%8A%A5%E7%B2%A5%E7%9A%84%E5%B0%8F%E6%80%AA%E5%85%BD/" data-toggle="tooltip" data-placement="top" title="gRPC实现跨语言的微服务间通信 -- 精通外语的电报员与煲电报粥的小怪兽">
                         Next<br>
-                        <span>SSH加密原理与RSA非对称加密算法</span>
+                        <span>gRPC实现跨语言的微服务间通信 -- 精通外语的电报员与煲电报粥的小怪兽</span>
                         </a>
                     </li>
                     
@@ -299,9 +290,9 @@
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2016/01/25/how-to-read-a-book"
-                        data-title="How to Read a Book"
-                        data-url="http://localhost:4000/2016/01/25/how-to-read-a-book/" >
+                        data-thread-key="/2018/04/27/通过Dnsmasq部署本地DNS服务"
+                        data-title="通过Dnsmasq部署本地DNS服务"
+                        data-url="http://localhost:4000/2018/04/27/%E9%80%9A%E8%BF%87Dnsmasq%E9%83%A8%E7%BD%B2%E6%9C%AC%E5%9C%B0DNS%E6%9C%8D%E5%8A%A1/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

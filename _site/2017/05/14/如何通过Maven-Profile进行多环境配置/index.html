@@ -10,9 +10,9 @@
     <meta name="keywords"  content="编程，摄影，读书">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>About - Wenyuan Du's Blog</title>
+    <title>如何通过Maven Profile进行多环境配置 - Wenyuan Du's Blog</title>
 
-    <link rel="canonical" href="http://localhost:4000/about/">
+    <link rel="canonical" href="http://localhost:4000/2017/05/14/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87Maven-Profile%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -142,215 +142,205 @@
 </script>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/post-bg-alitrip.jpg')">
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/home-bg.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/home-bg.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>About</h1>
-                    <!--<hr class="small">-->
-                    <span class="subheading"></span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#spring" title="spring">spring</a>
+                        
+                    </div>
+                    <h1>如何通过Maven Profile进行多环境配置</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Wenyuan Du on May 14, 2017</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-	<div class="row">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<p>在系统开发，测试，到最终上线发布的过程中，切换环境是一个很常见的需求，不同环境中的参数（例如数据库配置、日志系统的级别）并不相同，如果每次切环境都要手动修改配置，实在称不上高效优雅，这就使得如何低成本地切换环境成为了一个非常实际的问题。</p>
+
+<p>一个解决思路是首先在资源文件中设置好不同环境中用到的参数，然后在构建阶段确定要将哪一个资源文件编译到应用包中。根据这个思路我们可以通过Maven Profile来完成多环境配置，下文举一个配置jdbc的简单例子方便大家理解。</p>
+<h6 id="1-资源文件">1. 资源文件</h6>
+<p>在资源文件中设置好jdbc连接的地址、密码等基本参数
+<img src="http://upload-images.jianshu.io/upload_images/3478473-56ea3acba2efab7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<h6 id="2-在pomxml中配置profile">2. 在pom.xml中配置profile</h6>
+<pre><code class="language-maven">&lt;profiles&gt;
+    &lt;!--开发环境--&gt;
+    &lt;profile&gt;
+        &lt;id&gt;development&lt;/id&gt;
+        &lt;properties&gt;
+            &lt;environment&gt;development&lt;/environment&gt;
+        &lt;/properties&gt;
+        &lt;!--默认选择这个配置--&gt;
+        &lt;activation&gt;
+            &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+        &lt;/activation&gt;
+    &lt;/profile&gt;
+    &lt;!--生产环境--&gt;
+    &lt;profile&gt;
+        &lt;id&gt;production&lt;/id&gt;
+        &lt;properties&gt;
+            &lt;environment&gt;production&lt;/environment&gt;
+        &lt;/properties&gt;
+    &lt;/profile&gt;
+&lt;/profiles&gt;
+</code></pre>
+<h6 id="3-配置资源文件">3. 配置资源文件</h6>
+<pre><code class="language-maven">&lt;build&gt;
+    &lt;resources&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;
+            &lt;excludes&gt;
+                &lt;exclude&gt;properties/*&lt;/exclude&gt;
+            &lt;/excludes&gt;
+        &lt;/resource&gt;
+        &lt;resource&gt;  
+            &lt;directory&gt;src/main/resources/properties/${environment}&lt;/directory&gt;  
+        &lt;/resource&gt;  
+    &lt;/resources&gt;
+&lt;/build&gt;
+</code></pre>
+<h6 id="4maven构建">4.Maven构建</h6>
+<div class="highlighter-rouge"><pre class="highlight"><code>mvn clean package -P development
+mvn clean package -P production
+</code></pre>
+</div>
+<p>分别构建出开发环境或生产环境的war包，若不设置-P参数，按照我们上文中pom.xml的配置，会默认选择开发环境的profile。</p>
+
+<h4 id="缺点">缺点</h4>
+<p>通过Maven Profile实现多环境配置的一个缺点是每次切换环境都必须重新构建，而重新构建可能会引入bug，我准备在下一篇文章中介绍另一种更加灵活的多环境配置解决方案，即Spring Profile。</p>
+
+
+                <hr>
+
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/10/30/naming/" data-toggle="tooltip" data-placement="top" title="取名小记">
+                        Previous<br>
+                        <span>取名小记</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/05/15/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87Spring-Profile%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="如何通过Spring Profile进行多环境配置">
+                        Next<br>
+                        <span>如何通过Spring Profile进行多环境配置</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2017/05/14/如何通过Maven Profile进行多环境配置"
+                        data-title="如何通过Maven Profile进行多环境配置"
+                        data-url="http://localhost:4000/2017/05/14/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87Maven-Profile%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
         
 
-<!-- USE SIDEBAR -->
-    <!-- PostList Container -->
-    		<div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                postlist-container
-            ">
-    			<!-- Chinese Version -->
-<div class="zh post-container">
-
-    <!--copied from markdown -->
-    <blockquote><p>读万卷书，行万里路</p></blockquote>
-
-    <p>与一只萨摩耶和一只加菲猫一起生活，<br>
-    闲来喜欢看书喝酒。
-    </p>
-
-</div>
-
-<!-- Handle Language Change -->
-<script type="text/javascript">
-    // get nodes
-    var $zh = document.querySelector(".zh");
-    var $en = document.querySelector(".en");
-    var $select = document.querySelector("select");
-
-    // bind hashchange event
-    window.addEventListener('hashchange', _render);
-
-    // handle render
-    function _render(){
-        var _hash = window.location.hash;
-        // en
-        if(_hash == "#en"){
-            $select.selectedIndex = 1;
-            $en.style.display = "block";
-            $zh.style.display = "none";
-        // zh by default
-        }else{
-            // not trigger onChange, otherwise cause a loop call.
-            $select.selectedIndex = 0;
-            $zh.style.display = "block";
-            $en.style.display = "none";
-        }
-    }
-
-    // handle select change
-    function onLanChange(index){
-        if(index == 0){
-            window.location.hash = "#zh"
-        }else{
-            window.location.hash = "#en"
-        }
-    }
-
-    // init
-    _render();
-</script>
-
-
-
-
-<!-- 多说评论框 start -->
-<div class="comment">
-    <div class="ds-thread"
-    
-        data-thread-id="1187623191091085319"
-    
-
-    data-title="About"
-    data-url="http://localhost:4000/about/"></div>
-</div>
-<!-- 多说评论框 end -->
-
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    // dynamic User hacking by Hux
-    var _user = 'huxblog';
-
-    // duoshuo comment query.
-    var duoshuoQuery = {short_name: _user };
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-</script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-
-    		</div>
     <!-- Sidebar Container -->
             <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                                <a href="/tags/#spring" title="spring" rel="2">
+                				<a href="/tags/#spring" title="spring" rel="2">
                                     spring
                                 </a>
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
+        				
                             
-                        
-                    </div>
+        				
+        			</div>
                 </section>
                 
 
-                <!-- Short About -->
-                <section class="visible-md visible-lg">
-                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
-                    <div class="short-about">
-                        
-                            <img src="/img/avatar-wenyuan.jpeg" />
-                        
-                        
-                            <p>纸屏石枕竹方床，手倦抛书午梦长。</p>
-                        
-                        <!-- SNS Link -->
-                        <ul class="list-inline">
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://www.zhihu.com/people/wen-yuan-4-42">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            <li>
-                                <a target="_blank" href="http://weibo.com/1952933935">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                            
-                            <li>
-                                <a target="_blank" href="https://github.com/wenyuandu">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </div>
-                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -381,10 +371,70 @@
                     
                 </ul>
                 
-    		</div>
-        
-	</div>
-</div>
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'huxblog';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
 
     <!-- Footer -->
@@ -522,6 +572,50 @@
 
 
 <!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
 
 
 
