@@ -199,11 +199,13 @@
 
 <h1 id="1-微服务框架--从系统怪物到服务小怪兽">1. 微服务框架 – 从系统怪物到服务小怪兽</h1>
 <p>一个小巧的单体应用会随着公司业务的扩张而慢慢成长，逐渐演化成一个庞大且复杂的系统怪物，系统任何一处的问题都将影响整个怪物的表现，很少有单独的开发者能理清系统怪物所有的肌理脉络，导致bug的定位和新功能的扩展都变得越来越困难，对系统的任一改动都要求整个怪物一起回归测试并重新部署，效率必然不高。所以公司发展到了一定阶段，总会需要从架构上寻找解决系统怪物之道，而微服务就是目前最流行的架构方案之一，它将系统怪物拆分成多个独立自治的服务小怪兽，让我们有能力分而治之。
-[插画：无数小怪兽组成一座大怪兽形状的山，小怪兽正一个个从山上滚下来]</p>
+<img src="/img/grpc_split.jpeg" alt="插画：牛肉" /></p>
+<center>插画：牛肉</center>
 
 <h1 id="2-rpc框架--小怪兽的电报员">2. RPC框架 – 小怪兽的电报员</h1>
 <p>一旦系统怪物被拆分成了多个服务小怪兽，小怪兽们如何沟通协作就成了我们最关心的问题。服务小怪兽间的通信就好像发电报一样，涉及到数据序列化、反序列化、连接管理、收发线程、超时处理等多个问题，RPC框架的出现解决了这些问题，就好像通过电报员发电报一样，使用RPC框架让小怪兽们不必关心通信的底层细节。
-[插画：小怪兽在请电报员发电报]</p>
+<img src="/img/grpc_telegraph.jpeg" alt="插画：牛肉" /></p>
+<center>插画：牛肉</center>
 
 <h4 id="rpc调用细节">RPC调用细节</h4>
 <ol>
@@ -220,7 +222,8 @@
 
 <h1 id="3-grpc--这位电报员是语言天才">3. gRPC – 这位电报员是语言天才</h1>
 <p>如果通信的小怪兽们语言不通，那么我们需要对电报员（亦即RPC框架）的人选提出更高的要求，无论小怪兽们用的是什么语言，协助通信的两位电报员都必须把它们的话翻译成电报员彼此能理解的同一种语言，亦即IDL(Interface Description Language)，是的，电报员在这种情况下还必须承担翻译的角色，而gRPC就是一位如此优秀的电报员。
-[插画：小怪兽说”今晚的月色真美”，电报员写”I Love you“]</p>
+<img src="/img/grpc_translate.jpeg" alt="插画：牛肉" /></p>
+<center>插画：牛肉</center>
 
 <h3 id="4-grpc-demo">4. gRPC Demo</h3>
 <p>实现Node客户端小怪兽发送”今晚的月色真美”，Java服务端小怪兽收到电报内容，并回复”I love you too”。</p>
@@ -229,115 +232,118 @@
   <li>
     <p>通过Spring Boot创建Java项目，pom.xml中加入如下依赖</p>
 
-    <pre><code class="language-XML"> &lt;dependencies&gt;
-     &lt;dependency&gt;
-         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-         &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-     &lt;/dependency&gt;
-     &lt;dependency&gt;
-         &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-         &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-         &lt;scope&gt;test&lt;/scope&gt;
-     &lt;/dependency&gt;
-     &lt;dependency&gt;
-         &lt;groupId&gt;io.grpc&lt;/groupId&gt;
-         &lt;artifactId&gt;grpc-netty-shaded&lt;/artifactId&gt;
-         &lt;version&gt;1.21.0&lt;/version&gt;
-     &lt;/dependency&gt;
-     &lt;dependency&gt;
-         &lt;groupId&gt;io.grpc&lt;/groupId&gt;
-         &lt;artifactId&gt;grpc-protobuf&lt;/artifactId&gt;
-         &lt;version&gt;1.21.0&lt;/version&gt;
-     &lt;/dependency&gt;
-     &lt;dependency&gt;
-         &lt;groupId&gt;io.grpc&lt;/groupId&gt;
-         &lt;artifactId&gt;grpc-stub&lt;/artifactId&gt;
-         &lt;version&gt;1.21.0&lt;/version&gt;
-     &lt;/dependency&gt;
- &lt;/dependencies&gt;
+    <div class="language-xml highlighter-rouge"><pre class="highlight"><code> <span class="nt">&lt;dependencies&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+         <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+         <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+         <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+         <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+         <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+         <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+         <span class="nt">&lt;artifactId&gt;</span>grpc-netty-shaded<span class="nt">&lt;/artifactId&gt;</span>
+         <span class="nt">&lt;version&gt;</span>1.21.0<span class="nt">&lt;/version&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+         <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+         <span class="nt">&lt;artifactId&gt;</span>grpc-protobuf<span class="nt">&lt;/artifactId&gt;</span>
+         <span class="nt">&lt;version&gt;</span>1.21.0<span class="nt">&lt;/version&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+     <span class="nt">&lt;dependency&gt;</span>
+         <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+         <span class="nt">&lt;artifactId&gt;</span>grpc-stub<span class="nt">&lt;/artifactId&gt;</span>
+         <span class="nt">&lt;version&gt;</span>1.21.0<span class="nt">&lt;/version&gt;</span>
+     <span class="nt">&lt;/dependency&gt;</span>
+ <span class="nt">&lt;/dependencies&gt;</span>
 
- &lt;build&gt;
-     &lt;extensions&gt;
-         &lt;extension&gt;
-             &lt;groupId&gt;kr.motd.maven&lt;/groupId&gt;
-             &lt;artifactId&gt;os-maven-plugin&lt;/artifactId&gt;
-             &lt;version&gt;1.5.0.Final&lt;/version&gt;
-         &lt;/extension&gt;
-     &lt;/extensions&gt;
-     &lt;plugins&gt;
-         &lt;plugin&gt;
-             &lt;groupId&gt;org.xolstice.maven.plugins&lt;/groupId&gt;
-             &lt;artifactId&gt;protobuf-maven-plugin&lt;/artifactId&gt;
-             &lt;version&gt;0.5.1&lt;/version&gt;
-             &lt;configuration&gt;
-                 &lt;protocArtifact&gt;com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}&lt;/protocArtifact&gt;
-                 &lt;pluginId&gt;grpc-java&lt;/pluginId&gt;
-                 &lt;pluginArtifact&gt;io.grpc:protoc-gen-grpc-java:1.21.0:exe:${os.detected.classifier}&lt;/pluginArtifact&gt;
-                 &lt;!--指定生成文件目录--&gt;
-                 &lt;outputDirectory&gt;src/main/java&lt;/outputDirectory&gt;
-                 &lt;!--重新生成文件时不清除 原有src/main/java下的内容--&gt;
-                 &lt;clearOutputDirectory&gt;false&lt;/clearOutputDirectory&gt;
-             &lt;/configuration&gt;
-             &lt;executions&gt;
-                 &lt;execution&gt;
-                     &lt;goals&gt;
-                         &lt;goal&gt;compile&lt;/goal&gt;
-                         &lt;goal&gt;compile-custom&lt;/goal&gt;
-                     &lt;/goals&gt;
-                 &lt;/execution&gt;
-             &lt;/executions&gt;
-         &lt;/plugin&gt;
-         &lt;plugin&gt;
-             &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-             &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
-         &lt;/plugin&gt;
-     &lt;/plugins&gt;
- &lt;/build&gt;
+ <span class="nt">&lt;build&gt;</span>
+     <span class="nt">&lt;extensions&gt;</span>
+         <span class="nt">&lt;extension&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>kr.motd.maven<span class="nt">&lt;/groupId&gt;</span>
+             <span class="nt">&lt;artifactId&gt;</span>os-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+             <span class="nt">&lt;version&gt;</span>1.5.0.Final<span class="nt">&lt;/version&gt;</span>
+         <span class="nt">&lt;/extension&gt;</span>
+     <span class="nt">&lt;/extensions&gt;</span>
+     <span class="nt">&lt;plugins&gt;</span>
+         <span class="nt">&lt;plugin&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>org.xolstice.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+             <span class="nt">&lt;artifactId&gt;</span>protobuf-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+             <span class="nt">&lt;version&gt;</span>0.5.1<span class="nt">&lt;/version&gt;</span>
+             <span class="nt">&lt;configuration&gt;</span>
+                 <span class="nt">&lt;protocArtifact&gt;</span>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}<span class="nt">&lt;/protocArtifact&gt;</span>
+                 <span class="nt">&lt;pluginId&gt;</span>grpc-java<span class="nt">&lt;/pluginId&gt;</span>
+                 <span class="nt">&lt;pluginArtifact&gt;</span>io.grpc:protoc-gen-grpc-java:1.21.0:exe:${os.detected.classifier}<span class="nt">&lt;/pluginArtifact&gt;</span>
+                 <span class="c">&lt;!--指定生成文件目录--&gt;</span>
+                 <span class="nt">&lt;outputDirectory&gt;</span>src/main/java<span class="nt">&lt;/outputDirectory&gt;</span>
+                 <span class="c">&lt;!--重新生成文件时不清除 原有src/main/java下的内容--&gt;</span>
+                 <span class="nt">&lt;clearOutputDirectory&gt;</span>false<span class="nt">&lt;/clearOutputDirectory&gt;</span>
+             <span class="nt">&lt;/configuration&gt;</span>
+             <span class="nt">&lt;executions&gt;</span>
+                 <span class="nt">&lt;execution&gt;</span>
+                     <span class="nt">&lt;goals&gt;</span>
+                         <span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+                         <span class="nt">&lt;goal&gt;</span>compile-custom<span class="nt">&lt;/goal&gt;</span>
+                     <span class="nt">&lt;/goals&gt;</span>
+                 <span class="nt">&lt;/execution&gt;</span>
+             <span class="nt">&lt;/executions&gt;</span>
+         <span class="nt">&lt;/plugin&gt;</span>
+         <span class="nt">&lt;plugin&gt;</span>
+             <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+             <span class="nt">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+         <span class="nt">&lt;/plugin&gt;</span>
+     <span class="nt">&lt;/plugins&gt;</span>
+ <span class="nt">&lt;/build&gt;</span>  	
 </code></pre>
+    </div>
   </li>
-  <li>定义IDL文件
+  <li>
+    <p>定义IDL文件</p>
+
     <div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="n">syntax</span> <span class="o">=</span> <span class="s">"proto3"</span><span class="o">;</span>
-    
  <span class="n">option</span> <span class="n">java_multiple_files</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
  <span class="n">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">"net.changjinglu.proto"</span><span class="o">;</span>
  <span class="n">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">"TelegraphProto"</span><span class="o">;</span>
-    
+
  <span class="kn">package</span> <span class="n">telegraph</span><span class="o">;</span>
-    
+
  <span class="c1">// The greeting service definition.</span>
  <span class="n">service</span> <span class="n">TelegraphService</span> <span class="o">{</span>
-     <span class="c1">// Sends a greeting</span>
+         <span class="c1">// Sends a greeting</span>
      <span class="n">rpc</span> <span class="nf">SayLove</span> <span class="o">(</span><span class="n">LoveRequest</span><span class="o">)</span> <span class="n">returns</span> <span class="o">(</span><span class="n">LoveReply</span><span class="o">)</span> <span class="o">{}</span>
  <span class="o">}</span>
-    
+
  <span class="c1">// The request message containing the user's name.</span>
  <span class="n">message</span> <span class="n">LoveRequest</span> <span class="o">{</span>
-     <span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+         <span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
  <span class="o">}</span>
-    
+
  <span class="c1">// The response message containing the greetings</span>
  <span class="n">message</span> <span class="n">LoveReply</span> <span class="o">{</span>
-     <span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+         <span class="n">string</span> <span class="n">message</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
  <span class="o">}</span>
 </code></pre>
     </div>
   </li>
-  <li>编译生成IDL定义的Java服务接口，相关代码会生成到配置对应的路径下
+  <li>
+    <p>编译生成IDL定义的Java服务接口，相关代码会生成到配置对应的路径下</p>
+
     <div class="language-bash highlighter-rouge"><pre class="highlight"><code> mvn clean install
 </code></pre>
     </div>
-    <p><img src="/img/grpc_generated_code.png" alt="clipboard.png" />
-  </p>
+
+    <p><img src="/img/grpc_generated_code.png" alt="clipboard.png" /></p>
   </li>
-  <li>实现IDL定义的Java服务接口
+  <li>
+    <p>实现IDL定义的Java服务接口</p>
+
     <div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">TelegraphGreeterImpl</span> <span class="kd">extends</span> <span class="n">TelegraphServiceGrpc</span><span class="o">.</span><span class="na">TelegraphServiceImplBase</span> <span class="o">{</span>
-    
-     <span class="nd">@Override</span>
+         <span class="nd">@Override</span>
      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayLove</span><span class="o">(</span><span class="n">LoveRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">StreamObserver</span><span class="o">&lt;</span><span class="n">LoveReply</span><span class="o">&gt;</span> <span class="n">responseObserver</span><span class="o">)</span> <span class="o">{</span>
-         <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"收到Node小怪兽的消息:"</span><span class="o">+</span><span class="n">request</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
-    
+             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"收到Node小怪兽的消息:"</span><span class="o">+</span><span class="n">request</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
          <span class="n">responseObserver</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">LoveReply</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">().</span><span class="na">setMessage</span><span class="o">(</span><span class="s">"I Love U Too"</span><span class="o">).</span><span class="na">build</span><span class="o">());</span>
-    
          <span class="c1">//结束</span>
          <span class="n">responseObserver</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
      <span class="o">}</span>
@@ -345,72 +351,65 @@
 </code></pre>
     </div>
   </li>
-  <li>编写并启动Java服务端
+  <li>
+    <p>编写并启动Java服务端</p>
+
     <div class="language-java highlighter-rouge"><pre class="highlight"><code> <span class="kd">public</span> <span class="kd">class</span> <span class="nc">GrpcServer</span> <span class="o">{</span>
-    
-     <span class="cm">/** GRPC 服务端 */</span>
+         <span class="cm">/** GRPC 服务端 */</span>
      <span class="kd">private</span> <span class="n">Server</span> <span class="n">server</span><span class="o">;</span>
-    
      <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
-         <span class="n">GrpcServer</span> <span class="n">grpcService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GrpcServer</span><span class="o">();</span>
-    
+             <span class="n">GrpcServer</span> <span class="n">grpcService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GrpcServer</span><span class="o">();</span>
          <span class="n">grpcService</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"GRPC 服务端启动成功"</span><span class="o">);</span>
-    
          <span class="c1">//GRPC 服务端需要手动阻塞线程</span>
          <span class="n">grpcService</span><span class="o">.</span><span class="na">waitTermination</span><span class="o">();</span>
-    
-    
      <span class="o">}</span>
-    
      <span class="kd">private</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-         <span class="c1">//绑定接口、启动服务</span>
+             <span class="c1">//绑定接口、启动服务</span>
          <span class="k">this</span><span class="o">.</span><span class="na">server</span> <span class="o">=</span> <span class="n">ServerBuilder</span><span class="o">.</span><span class="na">forPort</span><span class="o">(</span><span class="mi">8899</span><span class="o">)</span>
                  <span class="o">.</span><span class="na">addService</span><span class="o">(</span><span class="k">new</span> <span class="n">TelegraphGreeterImpl</span><span class="o">())</span>
                  <span class="o">.</span><span class="na">build</span><span class="o">()</span>
                  <span class="o">.</span><span class="na">start</span><span class="o">();</span>
-    
          <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"server start!"</span><span class="o">);</span>
-    
          <span class="c1">//这里是为了防止jvm关闭了，但是tcp还没有关闭的情况</span>
          <span class="n">Runtime</span><span class="o">.</span><span class="na">getRuntime</span><span class="o">().</span><span class="na">addShutdownHook</span><span class="o">(</span><span class="k">new</span> <span class="n">Thread</span><span class="o">(()-&gt;{</span>
-             <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"关闭jvm"</span><span class="o">);</span>
+                 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"关闭jvm"</span><span class="o">);</span>
              <span class="n">GrpcServer</span><span class="o">.</span><span class="na">this</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
          <span class="o">}));</span>
      <span class="o">}</span>
-    
      <span class="kd">private</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">()</span> <span class="o">{</span>
-         <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">server</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-             <span class="k">this</span><span class="o">.</span><span class="na">server</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+             <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">server</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                 <span class="k">this</span><span class="o">.</span><span class="na">server</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
          <span class="o">}</span>
      <span class="o">}</span>
-    
      <span class="kd">private</span> <span class="kt">void</span> <span class="nf">waitTermination</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
-    
-         <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">server</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-             <span class="n">server</span><span class="o">.</span><span class="na">awaitTermination</span><span class="o">();</span>
+             <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">server</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                 <span class="n">server</span><span class="o">.</span><span class="na">awaitTermination</span><span class="o">();</span>
          <span class="o">}</span>
      <span class="o">}</span>
  <span class="o">}</span>
 </code></pre>
     </div>
+
     <p><img src="/img/grpc_server_start.png" alt="clipboard.png" />
   </p>
   </li>
-  <li>编写并启动Nodejs客户端，客户端使用相同的IDL
-    <div class="language-js highlighter-rouge"><pre class="highlight"><code> <span class="kd">var</span> <span class="nx">PROTO_FILE_PATH</span> <span class="o">=</span> <span class="s1">'/Users/wenyuan/Nodejs/grpc/proto/telegraph.proto'</span><span class="p">;</span>
+  <li>
+    <p>编写并启动Nodejs客户端，客户端使用相同的IDL</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code> <span class="kd">var</span> <span class="nx">PROTO_FILE_PATH</span> <span class="o">=</span> <span class="s1">'/Users/wenyuan/Nodejs/grpc/proto/telegraph.proto'</span><span class="p">;</span>
  <span class="kd">var</span> <span class="nx">grpc</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'grpc'</span><span class="p">);</span>
  <span class="kd">var</span> <span class="nx">grpcService</span> <span class="o">=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">PROTO_FILE_PATH</span><span class="p">).</span><span class="nx">telegraph</span><span class="p">;</span>
-    
-    
+
+
  <span class="kd">function</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
      <span class="kd">var</span> <span class="nx">stub</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">grpcService</span><span class="p">.</span><span class="nx">TelegraphService</span><span class="p">(</span><span class="s1">'localhost:8899'</span><span class="p">,</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">createInsecure</span><span class="p">());</span>
-    
+
      <span class="nx">stub</span><span class="p">.</span><span class="nx">sayLove</span><span class="p">({</span><span class="na">message</span><span class="p">:</span><span class="s1">'今晚的月色真美'</span><span class="p">},</span><span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'收到Java小怪兽的消息: '</span> <span class="o">+</span> <span class="nx">result</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
      <span class="p">});</span>
  <span class="p">}</span>
-    
+
  <span class="nx">main</span><span class="p">();</span>
 </code></pre>
     </div>
@@ -420,8 +419,10 @@
  <img src="/img/grpc_server_side.png" alt="clipboard.png" />
     </p>
   </li>
-  <li>Nodejs客户端收到Java服务端的回复         <br />
- <img src="/img/grpc_client_side.png" alt="clipboard.png" /></li>
+  <li>
+    <p>Nodejs客户端收到Java服务端的回复         <br />
+ <img src="/img/grpc_client_side.png" alt="clipboard.png" /></p>
+  </li>
 </ol>
 
 
